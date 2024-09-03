@@ -25,6 +25,9 @@ return {
           use_git_status_colors = true,
           highlight = "NeoTreeFileName",
         },
+        modified = {
+            symbol = "~",
+        },
         git_status = {
           symbols = {
             -- Change type
@@ -45,6 +48,9 @@ return {
         filtered_items = {
           visible = true,
           hide_dotfiles = false,
+          never_show = {
+            ".git",
+          },
         },
       },
     })

@@ -1,14 +1,15 @@
--- Pull in the wezterm API
 local wezterm = require 'wezterm'
 
--- This will hold the configuration.
 local config = wezterm.config_builder()
 
--- This is where you actually apply your config choices
-
--- For example, changing the color scheme:
 config.color_scheme = 'Tokyo Night'
-config.font = wezterm.font 'Inconsolata Nerd Font'
-config.font_size = 16.0
+config.font = wezterm.font 'IntoneMono Nerd Font'
+config.font_size = 12.0
+config.window_padding = {
+  top = 4,
+  left = 0,
+  right = 0,
+  bottom = 0
+}
 -- and finally, return the configuration to wezterm
 return config

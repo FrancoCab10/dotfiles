@@ -1,27 +1,31 @@
 return {
   "folke/which-key.nvim",
   event = "VeryLazy",
+  opts = {
+    preset = "helix",
+    delay = 800,
+    icons = {
+      mappings = true,
+      group = "",
+      separator = "➜",
+    },
+  },
   init = function()
-    vim.o.timeout = true
-    vim.o.timeoutlen = 300
-  end,
-  config = function()
-    require("which-key").setup()
-
-    -- Document existing key chains
-    require("which-key").register({
-      ["<leader>c"] = { name = "[C]ode", _ = "which_key_ignore" },
-      ["<leader>d"] = { name = "[D]ocument", _ = "which_key_ignore" },
-      ["<leader>r"] = { name = "[R]ename", _ = "which_key_ignore" },
-      ["<leader>s"] = { name = "[S]earch", _ = "which_key_ignore" },
-      ["<leader>w"] = { name = "[W]orkspace", _ = "which_key_ignore" },
-      ["<leader>t"] = { name = "[T]oggle", _ = "which_key_ignore" },
-      ["<leader>g"] = { name = "[G]it", _ = "which_key_ignore" },
+    local wk = require("which-key")
+    wk.add({
+      { "<leader>a", group = "AI" },
+      { "<leader>c", group = "Code" },
+      { "<leader>e", group = "Explorer" },
+      { "<leader>f", group = "Find" },
+      { "<leader>g", group = "Git" },
+      { "<leader>l", group = "LSP" },
+      { "<leader>j", group = "Leap", icon = { icon = "󱕘", color = "orange" } },
+      { "<leader>J", group = "Leap across windows", icon = { icon = "󱕘", color = "orange" } },
+      { "<leader>t", group = "Terminal" },
+      { "<leader>h", group = "Harpoon", icon = { icon = "󱡅", color = "orange" } },
+      { "<leader>w", group = "Windows" },
+      { "<leader>r", group = "Replace", icon = { icon = "󰛔", color = "purple" } },
+      { "<leader>d", group = "Diagnostics" },
     })
-    -- visual mode
-    require("which-key").register({
-       ["<leader>g"] = { "[G]it" },
-       ["<leader>t"] = { "[T]oggle" },
-    }, { mode = "v" })
   end,
 }

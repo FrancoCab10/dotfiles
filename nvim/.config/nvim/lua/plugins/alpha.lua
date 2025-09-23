@@ -1,94 +1,54 @@
 return {
-  "goolord/alpha-nvim",
-  dependencies = {
-    "nvim-tree/nvim-web-devicons",
-  },
-  config = function()
-    local alpha = require("alpha")
-    local dashboard = require("alpha.themes.dashboard")
-    local fortune = require("alpha.fortune")
+	"goolord/alpha-nvim",
+	dependencies = { "nvim-tree/nvim-web-devicons" },
+	lazy = false,
+	config = function()
+		local alpha = require("alpha")
+		local dashboard = require("alpha.themes.dashboard")
 
-    -- Inspired by https://github.com/glepnir/dashboard-nvim with my own flair
-    local header = {
-      [[                                                                   ]],
-      [[      ████ ██████           █████      ██                    ]],
-      [[     ███████████             █████                            ]],
-      [[     █████████ ███████████████████ ███   ███████████  ]],
-      [[    █████████  ███    █████████████ █████ ██████████████  ]],
-      [[   █████████ ██████████ █████████ █████ █████ ████ █████  ]],
-      [[ ███████████ ███    ███ █████████ █████ █████ ████ █████ ]],
-      [[██████  █████████████████████ ████ █████ █████ ████ ██████]],
-    }
+		-- Header
+		dashboard.section.header.val = {
+			"⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⡿⠋⠁⠀⠀⠈⠉⠙⠻⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿",
+			"⣿⣿⣿⣿⣿⣿⣿⣿⣿⡟⠀⠀⠀⠀⠀⠀⠀⠀⠀⠈⠻⣿⣿⣿⣿⣿⣿⣿⣿⣿",
+			"⣿⣿⣿⣿⣿⣿⣿⣿⡟⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠈⢻⣿⣿⣿⣿⣿⣿⣿",
+			"⣿⣿⣿⣿⣿⣿⣿⡟⠀⠀⠀⠀⠀⢀⣠⣤⣤⣤⣤⣄⠀⠀⠀⠹⣿⣿⣿⣿⣿⣿",
+			"⣿⣿⣿⣿⣿⣿⣿⠁⠀⠀⠀⠀⠾⣿⣿⣿⣿⠿⠛⠉⠀⠀⠀⠀⠘⣿⣿⣿⣿⣿",
+			"⣿⣿⣿⣿⣿⣿⡏⠀⠀⠀⣤⣶⣤⣉⣿⣿⡯⣀⣴⣿⡗⠀⠀⠀⠀⣿⣿⣿⣿⣿",
+			"⣿⣿⣿⣿⣿⣿⡇⠀⠀⠀⡈⠀⠀⠉⣿⣿⣶⡉⠀⠀⣀⡀⠀⠀⠀⢻⣿⣿⣿⣿",
+			"⣿⣿⣿⣿⣿⣿⡇⠀⠀⠸⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⠇⠀⠀⠀⢸⣿⣿⣿⣿",
+			"⣿⣿⣿⣿⣿⣿⣿⠀⠀⠀⠉⢉⣽⣿⠿⣿⡿⢻⣯⡍⢁⠄⠀⠀⠀⣸⣿⣿⣿⣿",
+			"⣿⣿⣿⣿⣿⣿⣿⡄⠀⠀⠐⡀⢉⠉⠀⠠⠀⢉⣉⠀⡜⠀⠀⠀⠀⣿⣿⣿⣿⣿",
+			"⣿⣿⣿⣿⣿⣿⠿⠁⠀⠀⠀⠘⣤⣭⣟⠛⠛⣉⣁⡜⠀⠀⠀⠀⠀⠛⠿⣿⣿⣿",
+			"⡿⠟⠛⠉⠉⠀⠀⠀⠀⠀⠀⠀⠈⢻⣿⡀⠀⣿⠏⠀⠀⠀⠀⠀⠀⠀⠀⠀⠈⠉",
+			"⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠉⠁⠀⠁⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀",
+		}
 
-    -- Make the header a bit more fun with some color!
-    local function colorize_header()
-      local lines = {}
+		-- Buttons
+		dashboard.section.buttons.val = {
+			dashboard.button("n", "  New file", ":enew<CR>"),
+			dashboard.button("f", "  Find file", ":Telescope find_files<CR>"),
+			dashboard.button("r", "  Recent", ":Telescope oldfiles<CR>"),
+			dashboard.button("p", "  Projects", ":Telescope projects<CR>"),
+			dashboard.button("e", "󰙅  Explorer", ":Oil<CR>"),
+			dashboard.button("c", "  Config", ":e $MYVIMRC<CR>"),
+			dashboard.button("l", "󰒲  Lazy", ":Lazy<CR>"),
+			dashboard.button("q", "  Quit", ":qa<CR>"),
+		}
 
-      for i, chars in pairs(header) do
-        local line = {
-          type = "text",
-          val = chars,
-          opts = {
-            hl = "StartLogo" .. i,
-            shrink_margin = false,
-            position = "center",
-          },
-        }
+		-- Footer
+		local v = vim.version()
+		dashboard.section.footer.val = string.format("Neovim %d.%d.%d  •  My crime is that of curiosity.", v.major, v.minor, v.patch)
 
-        table.insert(lines, line)
-      end
+		-- Layout
+		dashboard.opts.layout = {
+			{ type = "padding", val = 2 },
+			dashboard.section.header,
+			{ type = "padding", val = 2 },
+			dashboard.section.buttons,
+			{ type = "padding", val = 1 },
+			dashboard.section.footer,
+		}
 
-      return lines
-    end
-
-    dashboard.section.buttons.val = {
-      dashboard.button("b", "  Show filesystem", ":Neotree filesystem reveal left <CR>"),
-      dashboard.button("e", "  New file", ":ene | startinsert <CR>"),
-      dashboard.button("f", "󰮗  Find file", ":Telescope find_files<CR>"),
-      dashboard.button("g", "  Find word", ":Telescope live_grep<CR>"),
-      dashboard.button("q", "  Quit NVIM", ":qa<CR>"),
-    }
-
-    -- Everyone could use a good fortune cookie from time to time, right?
-    dashboard.section.footer.val = fortune()
-
-    -- Hide all the unnecessary visual elements while on the dashboard, and add
-    -- them back when leaving the dashboard.
-    local group = vim.api.nvim_create_augroup("CleanDashboard", {})
-
-    vim.api.nvim_create_autocmd("User", {
-      group = group,
-      pattern = "AlphaReady",
-      callback = function()
-        -- vim.opt.showtabline = 0
-        vim.opt.showmode = false
-        vim.opt.laststatus = 0
-        vim.opt.showcmd = false
-        vim.opt.ruler = false
-      end,
-    })
-
-    vim.api.nvim_create_autocmd("BufUnload", {
-      group = group,
-      pattern = "<buffer>",
-      callback = function()
-        -- vim.opt.showtabline = 2
-        vim.opt.showmode = true
-        vim.opt.laststatus = 3
-        vim.opt.showcmd = true
-        vim.opt.ruler = true
-      end,
-    })
-
-    alpha.setup({
-      layout = {
-        { type = "padding", val = 4 },
-        { type = "group",   val = colorize_header() },
-        { type = "padding", val = 2 },
-        dashboard.section.buttons,
-        dashboard.section.footer,
-      },
-      opts = { margin = 5 },
-    })
-  end,
+		alpha.setup(dashboard.config)
+	end,
 }

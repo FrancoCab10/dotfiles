@@ -1,9 +1,9 @@
 return {
   "ggandor/leap.nvim",
   config = function()
-    vim.keymap.set("n", "m", "<Plug>(leap)")
-    vim.keymap.set("n", "M", "<Plug>(leap-from-window)")
-    vim.keymap.set({ "x", "o" }, "m", "<Plug>(leap-forward)")
-    vim.keymap.set({ "x", "o" }, "M", "<Plug>(leap-backward)")
+    vim.keymap.set("n", "<leader>j", "<Plug>(leap)")
+    vim.keymap.set("n", "<leader>J", "<Plug>(leap-from-window)")
+    vim.keymap.set({ "x", "o" }, "<leader>j", "<Plug>(leap-forward)")
+    vim.keymap.set({ "x", "o" }, "<leader>J", "<Plug>(leap-backward)")
   end,
 }

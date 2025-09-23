@@ -5,6 +5,7 @@ local config = wezterm.config_builder()
 config.color_scheme = 'Tokyo Night'
 config.font = wezterm.font 'IntoneMono Nerd Font'
 config.font_size = 12.0
+config.window_decorations = "TITLE | RESIZE"
 config.window_padding = {
   top = 4,
   left = 0,

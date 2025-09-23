@@ -19,7 +19,7 @@ return {
       require("mason-lspconfig").setup({
         ensure_installed = {
           "lua_ls",
-          "tsserver",
+          "ts_ls",
           "volar",
         },
       })
@@ -37,9 +37,11 @@ return {
 
       local vue_language_server_path = require("mason-registry").get_package("vue-language-server"):get_install_path()
         .. "/node_modules/@vue/language-server/node_modules/@vue/typescript-plugin"
+      local tsdk_path = require("mason-registry").get_package("vue-language-server"):get_install_path()
+        .. "/node_modules/typescript/lib"
 
       lspconfig.lua_ls.setup({ capabilities = capabilities })
-      lspconfig.tsserver.setup({
+      lspconfig.ts_ls.setup({
         capabilities = capabilities,
         init_options = {
           plugins = {
@@ -52,7 +54,14 @@ return {
         },
         filetypes = { "typescript", "javascript", "javascriptreact", "typescriptreact", "vue" },
       })
-      lspconfig.volar.setup({ capabilities = capabilities })
+      lspconfig.volar.setup({
+        init_options = {
+          typescript = {
+            tsdk = tsdk_path,
+          }
+        },
+        capabilities = capabilities
+      })
 
       vim.api.nvim_create_autocmd("LspAttach", {
         group = vim.api.nvim_create_augroup("UserLspConfig", {}),

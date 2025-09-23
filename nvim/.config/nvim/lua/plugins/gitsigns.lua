@@ -1,52 +1,30 @@
 return {
   "lewis6991/gitsigns.nvim",
-  config = function()
-    require("gitsigns").setup({
-      signs = {
-        add = { text = "┃" },
-        change = { text = "┃" },
-        delete = { text = "_" },
-        topdelete = { text = "‾" },
-        changedelete = { text = "~" },
-        untracked = { text = "┆" },
-      },
-      on_attach = function(bufnr)
-        local gitsigns = require("gitsigns")
+  event = { "BufReadPre", "BufNewFile" },
+  opts = {
+    signs = {
+      add          = { text = "▎" },
+      change       = { text = "▎" },
+      delete       = { text = "▁" },
+      topdelete    = { text = "▔" },
+      changedelete = { text = "▎" },
+      untracked    = { text = "▎" },
+    },
+    signcolumn = true,
+    attach_to_untracked = true,
+    watch_gitdir = { interval = 1000, follow_files = true },
+    current_line_blame = false,
+  },
+  config = function(_, opts)
+    local gitsigns = require("gitsigns")
+    gitsigns.setup(opts)
 
-        local function map(mode, l, r, opts)
-          opts = opts or {}
-          opts.buffer = bufnr
-          vim.keymap.set(mode, l, r, opts)
-        end
-
-        map("n", "<leader>gn", function()
-          if vim.wo.diff then
-            vim.cmd.normal({ "<leader>gn", bang = true })
-          else
-            gitsigns.nav_hunk("next")
-          end
-        end, { desc = "[G]it [N]ext change" })
-
-        map("n", "<leader>gp", function()
-          if vim.wo.diff then
-            vim.cmd.normal({ "<leader>gp", bang = true })
-          else
-            gitsigns.nav_hunk("prev")
-          end
-        end, { desc = "[G]it [P]revious change" })
-
-        map("v", "<leader>gr", function()
-          gitsigns.reset_hunk({ vim.fn.line("."), vim.fn.line("v") })
-        end, { desc = "[G]it [R]eset hunk" })
-
-        map("n", "<leader>gR", gitsigns.reset_buffer, {
-          desc = "[G]it [R]eset buffer",
-        })
-
-        map("n", "<leader>gb", gitsigns.toggle_current_line_blame, {
-          desc = "[G]it [B]lame",
-        })
-      end,
-    })
+    -- keymaps
+    local map = vim.keymap.set
+    map("n", "<leader>gp", gitsigns.prev_hunk, { desc = "Previous hunk" })
+    map("n", "<leader>gn", gitsigns.next_hunk, { desc = "Next hunk" })
+    map("n", "<leader>gr", gitsigns.reset_hunk, { desc = "Reset hunk" })
+    map("n", "<leader>gR", gitsigns.reset_buffer, { desc = "Reset buffer" })
+    map("n", "<leader>gP", gitsigns.preview_hunk, { desc = "Preview hunk" })
   end,
 }

@@ -13,6 +13,8 @@ return {
         ensure_installed = { "lua_ls", "vtsls", "vue_ls" },
       })
 
+      -- normalize unpack for 5.1/5.2+
+      local _unpack = unpack or table.unpack
       local capabilities = vim.lsp.protocol.make_client_capabilities()
 
       local function on_attach(_, bufnr)
@@ -99,8 +101,8 @@ return {
               return
             end
             local ts_client = ts_clients[1]
-            local param = table.unpack(result)
-            local id, command, payload = table.unpack(param)
+            local param = _unpack(result)
+            local id, command, payload = _unpack(param)
             ts_client:exec_cmd({
               title = "vue_request_forward",
               command = "typescript.tsserverRequest",

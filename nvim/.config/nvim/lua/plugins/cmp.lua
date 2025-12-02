@@ -23,7 +23,7 @@ return {
 			mapping = cmp.mapping.preset.insert({
 				["<C-Space>"] = cmp.mapping.complete(),
 
-				["<Tab>"] = function(fallback)
+				["<C-y>"] = function(fallback)
 					if cmp.visible() then
 						cmp.confirm({ select = true })
 					elseif luasnip.expand_or_jumpable() then
